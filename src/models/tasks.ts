@@ -1,8 +1,8 @@
-import { Tasks } from "interfaces/models";
+import { ITasks } from "../interfaces/models";
 import { Schema, model } from "mongoose";
 
 
-const taskSchema = new Schema<Tasks>({
+const taskSchema = new Schema<ITasks>({
     title: String,
     description: String,
     categoryId: {type: Schema.Types.ObjectId,ref: "Category"},

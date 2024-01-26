@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
     username: string,
     name: string,
     lastname: string,
@@ -14,12 +14,12 @@ export interface User {
     imgPath: string
 }
 
-export interface Category {
+export interface ICategory {
     categoryName: string,
     userId?: string
 }
 
-export interface Pincode {
+export interface IPincode {
     pin1: string,
     pin2: string,
     pin3: string,
@@ -29,7 +29,7 @@ export interface Pincode {
     userId?: string
 }
 
-export interface Image{
+export interface IImage{
     filename: string,
     path: string,
     originalname: string,
@@ -39,11 +39,11 @@ export interface Image{
     userId?: string,
 }
 
-export interface Roles{
+export interface IRoles{
     name: String
 }
 
-export interface SecretQuestions{
+export interface ISecretQuestions{
     question1: string,
     answer1: string,
     question2: string,
@@ -53,7 +53,7 @@ export interface SecretQuestions{
     userId?: string
 }
 
-export interface Tasks{
+export interface ITasks{
     title: string,
     description: string,
     categoryId?: string,

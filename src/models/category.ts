@@ -1,7 +1,7 @@
-import { Category } from "interfaces/models";
+import { ICategory } from "../interfaces/models";
 import { Schema, model } from "mongoose";
 
-const categorySchema = new Schema<Category>({
+const categorySchema = new Schema<ICategory>({
     categoryName: String,
     userId: {type: Schema.Types.ObjectId, ref: "User"}
 },

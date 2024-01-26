@@ -1,11 +1,11 @@
-import { Roles } from "interfaces/models";
+import { IRoles } from "../interfaces/models";
 import { Schema, model } from "mongoose";
 
 
-const rolesSchema = new Schema<Roles>({
+const rolesSchema = new Schema<IRoles>({
     name: String,
 },{
-    versionKey: false
+    versionKey: false,
 });
 
-export default model("Roles", rolesSchema);
+export default model("Role", rolesSchema);

@@ -1,8 +1,8 @@
-import { Image } from "interfaces/models";
+import { IImage } from "../interfaces/models";
 import { Schema, model } from "mongoose";
 
 
-const imageSchema = new Schema<Image>({
+const imageSchema = new Schema<IImage>({
     filename: String,
     path: String,
     originalname: String,

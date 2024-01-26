@@ -1,4 +1,4 @@
-import express, {Application} from "express";
+import express, {Application, Response, Request} from "express";
 import helmet from "helmet";
 import "colors";
 import dotenv from "dotenv";
@@ -16,6 +16,10 @@ import settings from "./routes/settings";
 import recovery from "./routes/recovery";
 import error from "./routes/error";
 
+//Services
+import { adminRole } from "./services/admin";
+import { createRoles } from "./services/roles";
+
 dotenv.config();
 
 class App {
@@ -24,7 +28,6 @@ class App {
     // private __filename = fileURLToPath(import.meta.url);
     // private __dirname = path.dirname(__filename);
     
-
     //Routes
     private apiPath = {
         home: "/api/v2/",
@@ -35,18 +38,16 @@ class App {
         errorPage: "/api/v2/error"
     }
 
-
     constructor(){
         this.app = express();
         this.port = process.env.PORT || "4000";
-        
+        //Calling functions
+        this.methods();
         //Middlewares
         this.middlewares()
         //Routes
         this.routes()
-
     }
-
     //middlewares
     middlewares(){
         this.app.use(morgan("dev"));
@@ -71,6 +72,11 @@ class App {
         })
     }
 
+    //Importing Admin and Role Functions
+    methods(){
+        createRoles();
+        adminRole();
+    }
     //Server Function
     listen(){
         this.app.listen(this.port, ()=>{

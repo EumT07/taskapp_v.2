@@ -1,7 +1,7 @@
 import {Schema,model}from "mongoose";
-import {User} from "../interfaces/models";
+import {IUser} from "../interfaces/models";
 
-const userSchema = new Schema<User>({
+const userSchema = new Schema<IUser>({
     username:{type: String, unique: true},
     name: String,
     lastname: String,
@@ -17,7 +17,7 @@ const userSchema = new Schema<User>({
 },
 {
     timestamps: true,
-    versionKey: true
+    versionKey: false
 });
 
 

@@ -1,7 +1,7 @@
-import { Pincode } from "interfaces/models";
+import { IPincode } from "../interfaces/models";
 import { Schema, model } from "mongoose";
 
-const pincodeSchema = new Schema<Pincode>({
+const pincodeSchema = new Schema<IPincode>({
     pin1: {type: String, required: true,},
     pin2: {type: String, required: true,},
     pin3: {type: String, required: true,},
