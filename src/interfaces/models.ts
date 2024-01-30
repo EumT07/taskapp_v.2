@@ -1,4 +1,5 @@
-export interface IUser {
+import { Document } from "mongoose"
+export interface IUser extends Document {
     username: string,
     name: string,
     lastname: string,
@@ -14,12 +15,12 @@ export interface IUser {
     imgPath: string
 }
 
-export interface ICategory {
+export interface ICategory extends Document  {
     categoryName: string,
     userId?: string
 }
 
-export interface IPincode {
+export interface IPincode extends Document  {
     pin1: string,
     pin2: string,
     pin3: string,
@@ -29,7 +30,7 @@ export interface IPincode {
     userId?: string
 }
 
-export interface IImage{
+export interface IImage extends Document {
     filename: string,
     path: string,
     originalname: string,
@@ -39,11 +40,11 @@ export interface IImage{
     userId?: string,
 }
 
-export interface IRoles{
+export interface IRoles extends Document {
     name: String
 }
 
-export interface ISecretQuestions{
+export interface ISecretQuestions extends Document {
     question1: string,
     answer1: string,
     question2: string,
@@ -53,7 +54,7 @@ export interface ISecretQuestions{
     userId?: string
 }
 
-export interface ITasks{
+export interface ITasks extends Document {
     title: string,
     description: string,
     categoryId?: string,

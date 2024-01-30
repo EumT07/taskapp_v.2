@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { signUp,signIn } from "../controllers/auth";
+import {checkUser_SignUP,checkUser_SignIn} from "../middlewares/auth";
 
 
 const route = Router();
@@ -12,10 +14,7 @@ route
         res.status(200)
             .json({message:"Get: Sign Up Page"});
     })
-    .post("/signup", (req, res)=>{
-        res.status(200)
-            .json({message:"Post: Sign Up Page"});
-    })
+    .post("/signup", checkUser_SignUP , signUp )
 
 /**
  * Endpoint Sign in
@@ -25,10 +24,7 @@ route
         res.status(200)
             .json({message:"Get: Sign in Page"});
     })
-    .post("/signin", (req, res)=>{
-        res.status(200)
-            .json({message:"Post: Sign Up Page"});
-    })
+    .post("/signin",checkUser_SignIn, signIn )
 
 /**
  * Endpoint Authentication: Pin Code

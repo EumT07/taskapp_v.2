@@ -6,7 +6,7 @@ export const encrypt = async (password:string)=>{
     return passwordHased;
 }
 
-export const chechEncrypt = async (password:string, passwordToCompare:string)=>{
+export const checkEncrypt = async (password:string, passwordToCompare:string)=>{
     const result = compare(password,passwordToCompare);
     return result;
 }
