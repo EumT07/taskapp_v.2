@@ -1,6 +1,7 @@
 import User from "../models/user";
 import { Request, Response, NextFunction } from "express";
 import { userValidator, emailValidator } from "../schema/user.schema";
+import { handleErrorHttp } from "../utils/errorHandle";
 
 
 
@@ -34,13 +35,15 @@ export const checkUser_SignUP = async (req: Request, res: Response, next: NextFu
 
         return next();
     } catch (error) {
-        
+        const title = "Error Middleware: SignUp";
+        const message = `${error}`
+        handleErrorHttp(res,title,message);
     }
 
 }
 export const checkUser_SignIn = async (req: Request, res: Response, next: NextFunction) =>{
     try {
-        const {username,email} = req.body;
+        const {email} = req.body;
 
         const {error} = emailValidator.validate(req.body);
 
@@ -59,6 +62,8 @@ export const checkUser_SignIn = async (req: Request, res: Response, next: NextFu
 
         return next();
     } catch (error) {
-        
+        const title = "Error Middleware: SignIn";
+        const message = `${error}`
+        handleErrorHttp(res,title,message);
     }
 }

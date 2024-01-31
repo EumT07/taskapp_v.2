@@ -9,8 +9,6 @@ import { json } from "body-parser";
 import { generateToken } from "../utils/jsonwebtoken";
 
 
-
-
 export const createUser = async (data:IUser)=>{
     try {
         const {username,email,password} = data;
@@ -55,7 +53,8 @@ export const findUser = async (data:IUser)=>{
 
         return token;
     } catch (error) {
-        console.log(error);
-        
+        const title = "Finding User: Error";
+        const message = `${error}`;
+        handleErrorServer(title,message);
     }
 }

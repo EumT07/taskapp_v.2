@@ -38,6 +38,41 @@ export const emailValidator = Joi.object({
         .pattern(new RegExp(email_regex)),
     password: Joi.string()
         .pattern(new RegExp(password)),
+});
+export const admin_emailValidator = Joi.object({
+    email: Joi.string()
+        .email()
+        .pattern(new RegExp(email_regex)),
+    password: Joi.string()
+        .pattern(new RegExp(password)),
+});
+
+export const pin_validator = Joi.object({
+    pin1: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
+    pin2: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
+    pin3: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
+    pin4: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
+    pin5: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
+    pin6: Joi.string()
+        .min(1)
+        .max(1)
+        .required(),
 })
+
 
 

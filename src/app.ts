@@ -3,7 +3,8 @@ import helmet from "helmet";
 import "colors";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import cors from "cors"
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import path from "node:path";
 import {fileURLToPath} from "node:url";
 
@@ -15,6 +16,7 @@ import admin from "./routes/admin";
 import settings from "./routes/settings";
 import recovery from "./routes/recovery";
 import error from "./routes/error";
+import securityMethods from "./routes/security.methods";
 
 //Services
 import { adminRole } from "./services/admin";
@@ -35,6 +37,7 @@ class App {
         auth: "/api/v2/auth",
         settings: "/api/v2/settings",
         recovery: "/api/v2/recovery",
+        security: "/api/v2/security",
         errorPage: "/api/v2/error"
     }
 
@@ -54,6 +57,7 @@ class App {
         this.app.use(helmet());
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(cookieParser());
         this.app.use(express.urlencoded({extended:true}));
         //Publics files
         this.app.use(express.static("./public"));
@@ -66,6 +70,7 @@ class App {
         this.app.use(this.apiPath.admin, admin);
         this.app.use(this.apiPath.settings, settings);
         this.app.use(this.apiPath.recovery, recovery);
+        this.app.use(this.apiPath.security, securityMethods);
         this.app.use(this.apiPath.errorPage, error);
         this.app.all("*",(req,res)=>{
             res.redirect(`${this.apiPath.errorPage}/notfound`);

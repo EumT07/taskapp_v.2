@@ -10,3 +10,5 @@ const pincodeSchema = new Schema<IPincode>({
     pin6: {type: String, required: true,},
     userId: {type: Schema.Types.ObjectId, ref:"User"}
 })
+
+export default model("PIN", pincodeSchema);

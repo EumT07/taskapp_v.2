@@ -3,10 +3,12 @@ import { Request, Response, NextFunction } from "express";
 import { createUser, findUser } from "../services/auth";
 import { IUser } from "../interfaces/models";
 import { token } from "morgan";
-
+import { handleErrorHttp } from "../utils/errorHandle";
 
 //Enviroment Variables
 dotenv.config();
+//Cookie Secret
+const cookie_User = process.env.cookie_User as string;
 
 
 /**
@@ -19,8 +21,13 @@ export const signUp = async (req: Request, res: Response)=>{
     //Registry User
     const token = await createUser(data);
 
-    //Set header
-    res.header("auth-token",token)
+    //Set Cookies
+    res.cookie(cookie_User,token,{
+        maxAge: 3600 * 1000, // 1h
+        secure: true,
+        httpOnly: true,
+        sameSite: "lax"
+    });
     
     //Message Notification
 
@@ -37,8 +44,13 @@ export const signIn = async (req: Request, res: Response)=>{
         res.status(404).json({message: "Wrong Pasword"})
     }
 
-    //Set header
-    res.header("auth-token", token)
+    //Set Cookies
+    res.cookie(cookie_User,token,{
+        maxAge: 3600 * 1000, // 1h
+        secure: true,
+        httpOnly: true,
+        sameSite: "lax"
+    });
 
     //message Notification
 
@@ -47,7 +59,15 @@ export const signIn = async (req: Request, res: Response)=>{
     res.status(201).json({message: "Valid User"})
 }
 export const close_userLogOut = async (req: Request, res: Response)=>{
-
+    try {
+        res.clearCookie(cookie_User);
+        res.status(200)
+            .json({message:"Get: Logout"});   
+    } catch (error) {
+        const title = "LogOut User: Error";
+        const message = `${error}`;
+        handleErrorHttp(res,title,message);
+    }
 }
 
 /**
@@ -55,9 +75,3 @@ export const close_userLogOut = async (req: Request, res: Response)=>{
  */
 
 
-export const admin_LogIn = async (req: Request, res: Response)=>{
-
-}
-export const close_adminLogOut = async (req: Request, res: Response)=>{
-
-}

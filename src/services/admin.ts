@@ -1,10 +1,11 @@
 import User from "../models/user";
 import Role from "../models/roles";
-import { IUser } from "interfaces/models";
+import { IUser } from "../interfaces/models";
 import { handleErrorServer } from "../utils/errorHandle";
-import {encrypt} from "../utils/bycrpt";
+import {encrypt, checkEncrypt} from "../utils/bycrpt";
 import util from "node:util";
 import dotenv from "dotenv";
+import { generateToken } from "../utils/jsonwebtoken";
 
 dotenv.config();
 //time sleep
@@ -41,6 +42,31 @@ export const adminRole = async ()=>{
     }
 }
 
+export const check_adminPassword = async (data:IUser) =>{
+    try {
+        const {email,password} = data;
+
+        //Check user
+        const admin = await User.findOne({email: email});
+
+        //Compare Password
+        const passwordHashed = admin?.password as string;
+
+        //Check Password
+        const password_IsCorrect = await checkEncrypt(password, passwordHashed)
+
+        if(!password_IsCorrect) return "Password Incorrect";
+       
+        //Create Token
+        const token = generateToken(admin?._id);
+
+        return token;
+    } catch (error) {
+        const title = "Internal Error\nAdmin ctrl: check_adminPassword";
+        const message = `ErrorMessage: ${error}`;
+        handleErrorServer(title,message);
+    }
+}
 /**
  *
 1. Non-Null Assertion Operator (!):

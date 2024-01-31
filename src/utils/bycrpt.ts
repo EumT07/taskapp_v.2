@@ -11,3 +11,8 @@ export const checkEncrypt = async (password:string, passwordToCompare:string)=>{
     return result;
 }
 
+export const pin_encrypt = async (pin:string)=>{
+    const salt = await genSalt(12);
+    const pinHased = hash(pin,salt);
+    return pinHased;
+}

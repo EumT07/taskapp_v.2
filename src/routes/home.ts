@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 
 const route = Router();
 
@@ -6,7 +6,7 @@ const route = Router();
  * Endpoint: home
  */
 route
-    .get("/", (req,res)=>{
+    .get("/", (req:Request,res:Response)=>{
         res.status(200).json({
             message:"Hello from Home"
         })
@@ -15,7 +15,7 @@ route
  * Endpoint: Profile
  */
 route
-    .get("/profile", (req,res)=>{
+    .get("/profile", (req:Request,res:Response)=>{
         res.status(200).json({
             message:"Hello from profile"
         })
