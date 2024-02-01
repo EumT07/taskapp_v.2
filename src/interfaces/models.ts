@@ -1,4 +1,6 @@
-import { Document } from "mongoose"
+import { Document } from "mongoose";
+import { Request, Response, NextFunction } from "express";
+
 export interface IUser extends Document {
     username: string,
     name: string,
@@ -63,4 +65,12 @@ export interface ITasks extends Document {
     userId?: string
     month: string,
     dateLine: string,
+}
+/**
+ * JWT 
+ */
+export interface IJwtPayload {
+    id: string,
+    iat: number,
+    exp: number
 }

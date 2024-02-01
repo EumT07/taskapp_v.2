@@ -47,6 +47,8 @@ export const admin_emailValidator = Joi.object({
         .pattern(new RegExp(password)),
 });
 
+
+//Security methods
 export const pin_validator = Joi.object({
     pin1: Joi.string()
         .min(1)
@@ -71,6 +73,33 @@ export const pin_validator = Joi.object({
     pin6: Joi.string()
         .min(1)
         .max(1)
+        .required(),
+})
+
+export const secretQts_validator = Joi.object({
+    question1: Joi.string()
+        .required(),
+    answer1: Joi.string()
+        .required(),
+    question2: Joi.string()
+        .required(),
+    answer2: Joi.string()
+        .required(),
+    question3: Joi.string()
+        .required(),
+    answer3: Joi.string()
+        .required(),
+    question4: Joi.string()
+        .required(),
+    answer4: Joi.string()
+        .required(),
+    question5: Joi.string()
+        .required(),
+    answer5: Joi.string()
+        .required(),
+    question6: Joi.string()
+        .required(),
+    answer6: Joi.string()
         .required(),
 })
 

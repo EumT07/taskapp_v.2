@@ -8,7 +8,7 @@ const pincodeSchema = new Schema<IPincode>({
     pin4: {type: String, required: true,},
     pin5: {type: String, required: true,},
     pin6: {type: String, required: true,},
-    userId: {type: Schema.Types.ObjectId, ref:"User"}
+    userId: {type: Schema.Types.ObjectId, ref:"User", unique: true}
 })
 
 export default model("PIN", pincodeSchema);

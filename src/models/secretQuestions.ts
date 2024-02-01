@@ -30,6 +30,7 @@ const secretQuestionsSchema = new Schema<ISecretQuestions>({
     userId: {
             type: Schema.Types.ObjectId,
             ref: "User",
+            unique: true
     }
 });
 
