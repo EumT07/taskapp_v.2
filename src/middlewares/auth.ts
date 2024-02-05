@@ -1,6 +1,6 @@
 import User from "../models/user";
 import { Request, Response, NextFunction } from "express";
-import { userValidator, emailValidator } from "../schema/user.schema";
+import { userValidator, user_emailValidator } from "../schema/user.schema";
 import { handleErrorHttp } from "../utils/errorHandle";
 
 
@@ -45,7 +45,7 @@ export const checkUser_SignIn = async (req: Request, res: Response, next: NextFu
     try {
         const {email} = req.body;
 
-        const {error} = emailValidator.validate(req.body);
+        const {error} = user_emailValidator.validate(req.body);
 
         if(error){
             res.status(404).json({message: error.details});

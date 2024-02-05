@@ -1,4 +1,7 @@
 import { Router } from "express";
+import { verify_recoveryToken, verify_resetPasswordToken } from "../middlewares/verify.token";
+import { search, resetPassword } from "../controllers/recovery";
+import { check_Search, check_password } from "../middlewares/recovery";
 
 
 const route = Router();
@@ -8,16 +11,16 @@ const route = Router();
  */
 route
     .get("/search",(req,res)=>{
-        res.status(200).json({message:"Get: Search"})
+        res.status(200).json({message:"Get: Search Page"})
     })
-    .post("/seach")
+    .post("/search",check_Search ,search)
 
 
 /**
  * Endpoint Options
  */
 route
-.get("/options",(req,res)=>{
+.get("/options",verify_recoveryToken,(req,res)=>{
     res.status(200).json({message:"Get: options"})
 })
 
@@ -25,17 +28,17 @@ route
  * Endoint: Pin code
  */
 route
-    .get("/pincode",(req,res)=>{
+    .get("/pincode",verify_recoveryToken,(req,res)=>{
         res.status(200).json({message:"Get: Pin Code"})
     })
-    .post("/pincode")
+    .post("/pincode",)
 
 
 /**
  * Endoint: Secret Questions
  */
 route
-    .get("/secretquestions",(req,res)=>{
+    .get("/secretquestions",verify_recoveryToken,(req,res)=>{
         res.status(200).json({message:"Get: Secret Questions"})
     })
     .post("/secretquestions")
@@ -55,19 +58,19 @@ route
  * Endoint: 
  */
 route
-    .get("/resetpassword",(req,res)=>{
+    .get("/resetpassword",verify_resetPasswordToken,(req,res)=>{
         res.status(200).json({message:"Get: Reset Password"})
     })
-    .post("/resetpassword")
+    .post("/resetpassword", check_password ,resetPassword)
 
 /**
  * Endoint: 
  */
 route
-    .get("/resetpassword/:token",(req,res)=>{
+    .get("/resetpassword/:token",verify_resetPasswordToken,(req,res)=>{
         res.status(200).json({message:"Get: "})
     })
-    .post("/resetpassword")
+    .post("/resetpassword", check_password ,resetPassword)
 
 
 

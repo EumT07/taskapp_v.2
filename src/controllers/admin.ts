@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response} from "express";
 import { IUser } from "../interfaces/models";
-import { token } from "morgan";
 import { handleErrorHttp } from "../utils/errorHandle";
 import { check_adminPassword } from "../services/admin";
 

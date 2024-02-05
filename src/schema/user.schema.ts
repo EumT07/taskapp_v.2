@@ -13,7 +13,7 @@ const email_regex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$';
 **/
 const password = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
-
+//User Vaidator Sign out
 export const userValidator = Joi.object({
    username: Joi.string()
         .alphanum()
@@ -23,27 +23,34 @@ export const userValidator = Joi.object({
 
     email: Joi.string()
         .email()
+        .required()
         .pattern(new RegExp(email_regex)),
 
     password: Joi.string()
+        .required()
         .pattern(new RegExp(password)),
         
     confirmPassword: Joi.ref("password")
 
 });
-
-export const emailValidator = Joi.object({
+//User Vaidator Sign In
+export const user_emailValidator = Joi.object({
     email: Joi.string()
         .email()
+        .required()
         .pattern(new RegExp(email_regex)),
     password: Joi.string()
+        .required()
         .pattern(new RegExp(password)),
 });
+//Admin Vaidator Sign In
 export const admin_emailValidator = Joi.object({
     email: Joi.string()
         .email()
+        .required()
         .pattern(new RegExp(email_regex)),
     password: Joi.string()
+        .required()
         .pattern(new RegExp(password)),
 });
 
@@ -103,5 +110,23 @@ export const secretQts_validator = Joi.object({
         .required(),
 })
 
+//Recovery
+
+//email
+export const email_validator = Joi.object({
+    email: Joi.string()
+        .email()
+        .required()
+        .pattern(new RegExp(email_regex)),
+});
+
+//Password
+export const password_validator = Joi.object({
+    password: Joi.string()
+        .required()
+        .pattern(new RegExp(password)),
+        
+    confirmPassword: Joi.ref("password")
+})
 
 
