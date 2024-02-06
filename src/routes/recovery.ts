@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { verify_recoveryToken, verify_resetPasswordToken } from "../middlewares/verify.token";
-import { search, resetPassword } from "../controllers/recovery";
+import { search, resetPassword, compare_PinCode } from "../controllers/recovery";
 import { check_Search, check_password } from "../middlewares/recovery";
+import { check_pincode } from "../middlewares/secutiry.methods";
 
 
 const route = Router();
@@ -31,7 +32,7 @@ route
     .get("/pincode",verify_recoveryToken,(req,res)=>{
         res.status(200).json({message:"Get: Pin Code"})
     })
-    .post("/pincode",)
+    .post("/pincode",check_pincode, verify_recoveryToken ,compare_PinCode)
 
 
 /**
@@ -41,7 +42,7 @@ route
     .get("/secretquestions",verify_recoveryToken,(req,res)=>{
         res.status(200).json({message:"Get: Secret Questions"})
     })
-    .post("/secretquestions")
+    .post("/secretquestions",verify_recoveryToken)
 
 /**
  * Endoint: Email nodemailer
@@ -55,22 +56,22 @@ route
 //Recovery password 
 
 /**
- * Endoint: 
+ * Endpoint: 
  */
 route
     .get("/resetpassword",verify_resetPasswordToken,(req,res)=>{
         res.status(200).json({message:"Get: Reset Password"})
     })
-    .post("/resetpassword", check_password ,resetPassword)
+    .post("/resetpassword", check_password,verify_resetPasswordToken ,resetPassword)
 
 /**
- * Endoint: 
+ * Endopint: 
  */
 route
     .get("/resetpassword/:token",verify_resetPasswordToken,(req,res)=>{
-        res.status(200).json({message:"Get: "})
+        res.status(200).json({message:"Get: Reset Password by token"})
     })
-    .post("/resetpassword", check_password ,resetPassword)
+    .post("/resetpassword", check_password, verify_resetPasswordToken ,resetPassword)
 
 
 

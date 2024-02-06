@@ -1,12 +1,14 @@
 import dotenv from "dotenv";
-import { Request, Response } from "express";
-import { generateToken } from "../utils/jsonwebtoken";
-import {updatePassword} from "../services/recovery";
+import { NextFunction, Request, Response } from "express";
+import { generateToken, verifyToken } from "../utils/jsonwebtoken";
+import {updatePassword,verify_Pincodes} from "../services/recovery";
+import { IJwtPayload } from "../interfaces/models";
 
 
 //Dot-env
 dotenv.config();
 const cookie_Recovery = process.env.cookie_Recovery as string;
+const cookie_ResetPassword = process.env.cookie_ResetPassword as string;
 
 
 export const search =  (req: Request, res: Response)=>{
@@ -16,7 +18,7 @@ export const search =  (req: Request, res: Response)=>{
 
     //Create new Cookies to recovery password
     res.cookie(cookie_Recovery,token,{
-        maxAge: 3600 * 1000,
+        maxAge: 750 * 1000, //7 minutes
         httpOnly: true,
         secure: true,
         sameSite: "lax"
@@ -28,12 +30,47 @@ export const search =  (req: Request, res: Response)=>{
     res.status(201).json({message: "Search: ready"})
 }
 
-export const resetPassword = (req: Request, res: Response)=>{
+export const compare_PinCode = async (req: Request, res: Response, next: NextFunction)=>{
+    //get data
+    const data = req.body;
+    const id = req.userId;
+
+
+    //Services: Verify codes in order to get access
+    const pins = await verify_Pincodes(id,data);
+    
+    //verify
+    if(pins === "Invalid") return res.status(201).json({message:"Pins are Invalid"});
+
+    //Delete Previous Cookies
+    res.clearCookie(cookie_Recovery);
+    //Create a new one
+    const newToken = generateToken(id);
+
+    res.cookie(cookie_ResetPassword,newToken,{
+        maxAge: 750 * 1000, //7 minutes
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax"
+    })
+
+    //Response
+    res.status(201).json({message: "Pins code are correct"})
+}
+
+
+export const resetPassword = async (req: Request, res: Response)=>{
     //get data
     const {password, confirmPassword} = req.body;
+    const id = req.userId;
+
     
     //Service: change password
-    updatePassword(req.userId,password,confirmPassword)
+    const response = await updatePassword(id,password,confirmPassword);
+
+    if (response === "Invalid"){
+        return res.status(404).json({message: "Password are Different"});
+    }
 
     //Message Notificacion
 
