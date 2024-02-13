@@ -47,13 +47,30 @@ export interface IRoles extends Document {
 }
 
 export interface ISecretQuestions extends Document {
-    question1: string,
-    answer1: string,
-    question2: string,
-    answer2: string,
-    question3: string,
-    answer3: string,
+    questionA: {
+        question: string,
+        answer: string,
+    },
+    questionB: {
+        question: string,
+        answer: string,
+    },
+    questionC: {
+        question: string,
+        answer: string,
+    },
     userId?: string
+}
+
+export interface ISecret_reecovery extends Document{
+    question_position1:{
+        question: string,
+        answer: string,
+    },
+    question_position2:{
+        question: string,
+        answer: string,
+    }
 }
 
 export interface ITasks extends Document {

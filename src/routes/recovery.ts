@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { verify_recoveryToken, verify_resetPasswordToken } from "../middlewares/verify.token";
-import { search, resetPassword, compare_PinCode } from "../controllers/recovery";
+import { search, resetPassword, compare_PinCode, compare_answers } from "../controllers/recovery";
 import { check_Search, check_password } from "../middlewares/recovery";
-import { check_pincode } from "../middlewares/secutiry.methods";
+import { check_pincode, check_securityQuestions, check_answers } from "../middlewares/secutiry.methods";
 
 
 const route = Router();
@@ -42,7 +42,7 @@ route
     .get("/secretquestions",verify_recoveryToken,(req,res)=>{
         res.status(200).json({message:"Get: Secret Questions"})
     })
-    .post("/secretquestions",verify_recoveryToken)
+    .post("/secretquestions",check_answers,verify_recoveryToken, compare_answers)
 
 /**
  * Endoint: Email nodemailer

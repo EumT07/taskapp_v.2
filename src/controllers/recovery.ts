@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import { generateToken, verifyToken } from "../utils/jsonwebtoken";
-import {updatePassword,verify_Pincodes} from "../services/recovery";
+import {updatePassword,verify_Pincodes, verify_answers as verify_answers} from "../services/recovery";
 import { IJwtPayload } from "../interfaces/models";
 
 
@@ -39,8 +39,8 @@ export const compare_PinCode = async (req: Request, res: Response, next: NextFun
     //Services: Verify codes in order to get access
     const pins = await verify_Pincodes(id,data);
     
-    //verify
-    if(pins === "Invalid") return res.status(201).json({message:"Pins are Invalid"});
+    //verify?
+    if(pins === "Invalid") return res.status(404).json({message:"Pins are Invalid"});
 
     //Delete Previous Cookies
     res.clearCookie(cookie_Recovery);
@@ -55,9 +55,36 @@ export const compare_PinCode = async (req: Request, res: Response, next: NextFun
     })
 
     //Response
-    res.status(201).json({message: "Pins code are correct"})
+    res.status(201).json({message: "Pins code are correct"});
 }
 
+export const compare_answers = async (req: Request, res: Response, next: NextFunction)=>{
+    //get data
+    const data = req.body;
+    const id = req.userId;
+
+    //Services: Verify answer in order to get access -> reset password
+    const answers = await verify_answers(id,data);
+
+    //verify?
+    if(answers === "Invalid") return res.status(404).json({message:"Answers are Invalid"});
+
+    //Delete Previous Cookies
+    res.clearCookie(cookie_Recovery);
+    //Create a new one
+    const newToken = generateToken(id);
+
+    res.cookie(cookie_ResetPassword,newToken,{
+        maxAge: 750 * 1000, //7 minutes
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax"
+    })
+
+    //Response
+    res.status(201).json({message: "Pins code are correct"});
+
+}
 
 export const resetPassword = async (req: Request, res: Response)=>{
     //get data

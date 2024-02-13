@@ -3,29 +3,35 @@ import { Schema, model } from "mongoose";
 
 
 const secretQuestionsSchema = new Schema<ISecretQuestions>({
-    question1: {
-        type: String,
-        required: true
+    questionA: {
+        question: {
+            type: String,
+            required: true,
+        },
+        answer: {
+            type: String,
+            required: true
+        }
     },
-    answer1: {
-        type: String,
-        required: true
+    questionB: {
+        question: {
+            type: String,
+            required: true,
+        },
+        answer: {
+            type: String,
+            required: true
+        }
     },
-    question2: {
-        type: String,
-        required: true
-    },
-    answer2: {
-        type: String,
-        required: true
-    },
-    question3: {
-        type: String,
-        required: true
-    },
-    answer3: {
-        type: String,
-        required: true
+    questionC: {
+        question: {
+            type: String,
+            required: true,
+        },
+        answer: {
+            type: String,
+            required: true
+        }
     },
     userId: {
             type: Schema.Types.ObjectId,

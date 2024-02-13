@@ -84,30 +84,40 @@ export const pin_validator = Joi.object({
 })
 
 export const secretQts_validator = Joi.object({
-    question1: Joi.string()
-        .required(),
-    answer1: Joi.string()
-        .required(),
-    question2: Joi.string()
-        .required(),
-    answer2: Joi.string()
-        .required(),
-    question3: Joi.string()
-        .required(),
-    answer3: Joi.string()
-        .required(),
-    question4: Joi.string()
-        .required(),
-    answer4: Joi.string()
-        .required(),
-    question5: Joi.string()
-        .required(),
-    answer5: Joi.string()
-        .required(),
-    question6: Joi.string()
-        .required(),
-    answer6: Joi.string()
-        .required(),
+    questionA: {
+        question: Joi.string()
+            .required(),
+        answer: Joi.string()
+            .required(),
+    },
+    questionB: {
+        question: Joi.string()
+            .required(),
+        answer: Joi.string()
+            .required(),
+    },
+    questionC: {
+        question: Joi.string()
+            .required(),
+        answer: Joi.string()
+            .required(),
+    }
+    
+});
+
+export const answer_validator = Joi.object({
+    question_position1: {
+        question: Joi.string()
+            .required(),
+        answer: Joi.string()
+            .required(),
+    },
+    question_position2: {
+        question: Joi.string()
+            .required(),
+        answer: Joi.string()
+            .required(),
+    }
 })
 
 //Recovery

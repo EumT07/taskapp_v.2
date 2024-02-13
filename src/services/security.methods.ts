@@ -49,18 +49,15 @@ export const create_PinsCode = async (data:IPincode,id:string) =>{
 export const create_SecretQuestions = async (data:ISecretQuestions,id:string)=>{
    try {
         const {
-            question1,
-            answer1,
-            question2,
-            answer2,
-            question3,
-            answer3,
+            questionA,
+            questionB,
+            questionC
         } = data;
 
         //Encryptin answers
-        const answer1Hashed1 = await secretAnswer_encrypt(answer1);
-        const answer2Hashed2 = await secretAnswer_encrypt(answer2);
-        const answer3Hashed3 = await secretAnswer_encrypt(answer3);
+        const answer1Hashed1 = await secretAnswer_encrypt(questionA.answer);
+        const answer2Hashed2 = await secretAnswer_encrypt(questionB.answer);
+        const answer3Hashed3 = await secretAnswer_encrypt(questionC.answer);
 
         //Check user id
         const user = await secretQuestions.findOne({userId: id});
@@ -69,12 +66,18 @@ export const create_SecretQuestions = async (data:ISecretQuestions,id:string)=>{
 
         //Creating data
         await secretQuestions.create({
-            question1: question1.toLowerCase(),
-            answer1: answer1Hashed1,
-            question2: question2.toLowerCase(),
-            answer2: answer2Hashed2,
-            question3: question3.toLowerCase(),
-            answer3: answer3Hashed3,
+            questionA: {
+                question: questionA.question.toLowerCase().trim(),
+                answer: answer1Hashed1,
+            },
+            questionB: {
+                question: questionB.question.toLowerCase().trim(),
+                answer: answer2Hashed2,
+            },
+            questionC: {
+                question: questionC.question.toLowerCase().trim(),
+                answer: answer3Hashed3,
+            },
             userId: id
         });
 

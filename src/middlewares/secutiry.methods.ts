@@ -1,4 +1,4 @@
-import { pin_validator, secretQts_validator } from "../schema/user.schema";
+import { pin_validator, secretQts_validator, answer_validator } from "../schema/user.schema";
 import { Request, Response, NextFunction } from "express";
 import PIN from "../models/pincode";
 import { handleErrorHttp } from "../utils/errorHandle";
@@ -33,13 +33,32 @@ export const check_securityQuestions = (req:Request, res: Response, next: NextFu
         const {error} = secretQts_validator.validate(data);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
 
-        return next();
+        next();
     } catch (error) {
         const title = "Middleware Error: Secret Questions";
+        const message = `${error}`;
+        handleErrorHttp(res,title,message);
+    }
+}
+
+export const check_answers = (req:Request, res: Response, next: NextFunction)=>{
+
+    try {
+        const data = req.body;
+
+        //Check answers
+        const {error} = answer_validator.validate(data);
+
+        if(error){
+            return res.status(404).json({message: error.details})
+        }
+
+        next();
+    } catch (error) {
+        const title = "Middleware Error: Answers";
         const message = `${error}`;
         handleErrorHttp(res,title,message);
     }
