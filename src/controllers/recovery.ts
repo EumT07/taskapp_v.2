@@ -98,7 +98,8 @@ export const resetPassword = async (req: Request, res: Response)=>{
     if (response === "Invalid"){
         return res.status(404).json({message: "Password are Different"});
     }
-
+    //Clean cookies
+    res.clearCookie(cookie_ResetPassword);
     //Message Notificacion
 
     //Response

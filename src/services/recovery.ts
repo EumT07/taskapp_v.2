@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import User from "../models/user";
-import { IPincode, ISecretQuestions, ISecret_reecovery } from "../interfaces/models";
+import { IPincode, ISecretQuestions, ISecret_reecovery,IGet_answers } from "../interfaces/models";
 import Pincode from "../models/pincode";
 import SecretQuestions from "../models/secretQuestions";
 import { handleErrorServer } from "../utils/errorHandle";
@@ -50,14 +50,12 @@ export const search_email = async (email:string)=>{
 
 }
 
-
 export const verify_Pincodes = async (id:string,data:IPincode) => {
     try {
         
         //get data From form
         const {pin1,pin2,pin3,pin4,pin5,pin6} = data;
-        const pinListA = [pin1,pin2,pin3,pin4,pin5,pin6]
-
+        const pinListA = [pin1,pin2,pin3,pin4,pin5,pin6];
 
         //Find pins from user to compare
         const pinUser = await Pincode.findOne({userId:id});
@@ -84,7 +82,7 @@ export const verify_Pincodes = async (id:string,data:IPincode) => {
                 break;
             }
         }
-        
+       
         if(!pinVerify){
             return "Invalid";
         }
@@ -108,7 +106,7 @@ export const verify_answers = async (id:string,data:ISecret_reecovery)=>{
         const answers: string[] = [question_position1.answer,question_position2.answer];
 
         //Get answers and questions
-        const secretQts_data = await SecretQuestions.findOne({userId: id});
+        const secretQts_data = await SecretQuestions.findOne({userId: id}) as ISecretQuestions;
         const secretQts_data_questions: string[] = [
             secretQts_data?.questionA.question as string,
             secretQts_data?.questionB.question as string,
@@ -143,7 +141,7 @@ export const updatePassword = async (id:string, password:string, confirmPassword
         if(password !== confirmPassword) return "Invalid";
 
         //encrypt password
-        const passwordHashed = encrypt(password);
+        const passwordHashed = await encrypt(password);
 
         //Updating password
         await User.findOneAndUpdate({_id: id},{password: passwordHashed});
@@ -156,8 +154,8 @@ export const updatePassword = async (id:string, password:string, confirmPassword
     }
 }
 
-//By google Bard 
-const getCoincidingElements = async (arrayA: string[], arrayB: string[], secretQts_data: any,answerPositons: string[])=>{
+//By google Bard and updated by me
+const getCoincidingElements = async (arrayA: string[], arrayB: string[], secretQts_data: ISecretQuestions,answerPositons: string[])=>{
     //Change string to lower letters
     
     
@@ -172,7 +170,7 @@ const getCoincidingElements = async (arrayA: string[], arrayB: string[], secretQ
 
 
     //get Questions and answer
-    const get_answer: any[] = [];
+    const get_answer: IGet_answers[] = [];
 
     coincidingElements.forEach((item:string)=>{
         if(item === secretQts_data.questionA.question){

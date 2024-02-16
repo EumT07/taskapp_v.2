@@ -1,5 +1,4 @@
 import { Document } from "mongoose";
-import { Request, Response, NextFunction } from "express";
 
 export interface IUser extends Document {
     username: string,
@@ -90,4 +89,13 @@ export interface IJwtPayload {
     id: string,
     iat: number,
     exp: number
+}
+
+/**
+ * Array get_answer : Recovery 
+ * 
+ */
+export interface IGet_answers {
+    question: string,
+    answer: string
 }
