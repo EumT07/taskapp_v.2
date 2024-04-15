@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import { generateToken, verifyToken } from "../utils/jsonwebtoken";
 import {updatePassword,verify_Pincodes, verify_answers as verify_answers} from "../services/recovery";
-import { IJwtPayload } from "../interfaces/models";
 
 
 //Dot-env

@@ -139,4 +139,14 @@ export const password_validator = Joi.object({
     confirmPassword: Joi.ref("password")
 })
 
-
+//Settings
+export const userUpdate_validator = Joi.object({
+    username: Joi.string()
+        .alphanum()
+        .min(6)
+        .max(20),
+    name: Joi.string(),
+    lastname: Joi.string(),
+    gender: Joi.string(),
+    country: Joi.string()
+})
