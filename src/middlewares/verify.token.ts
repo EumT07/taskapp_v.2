@@ -10,6 +10,8 @@ const cookie_User = process.env.cookie_User as string;
 const cookie_Admin = process.env.cookie_Admin as string;
 const cookie_Recovery = process.env.cookie_Recovery as string;
 const cookie_ResetPassword = process.env.cookie_resetPassword as string;
+const cookie_passtoken = process.env.cookie_passtoken as string;
+const cookie_secrettoken = process.env.cookie_secrettoken as string;
 
 
 // User
@@ -41,7 +43,6 @@ export const verify_userToken = async (req: Request, res: Response, next: NextFu
         handleErrorHttp(res,title,message);
     }
 }
-
 
 // Admin
 export const verify_adminToken = async (req: Request, res: Response, next: NextFunction ) =>{
@@ -132,3 +133,64 @@ export const verify_resetPasswordToken = async (req: Request, res: Response, nex
         handleErrorHttp(res,title,message);
     }
 }
+
+export const verify_changepasstoken = (req: Request, res: Response, next: NextFunction) =>{
+    try {
+        //get token
+        const token: string = req.cookies[cookie_passtoken];
+        
+        if(!token){
+            res.status(404).json({message: "Change Password Token Not provided"})
+            return;
+        }
+
+        //Verify Token
+        const user = verifyToken(token) as IJwtPayload;
+
+        //token is correct
+        if(!user){
+            res.status(404).json({message: "Token Invalid"})
+        }
+       
+        //Verify Token and Get token Id
+        req.userId = user.id;
+
+        next();
+        
+    } catch (error) {
+        const title = "Middleware Error: Change Password VerifyToken ";
+        const message = `${error}`;
+        handleErrorHttp(res,title,message);
+    }
+}
+export const verify_changesecrettoken = (req: Request, res: Response, next: NextFunction) =>{
+    try {
+        //get token
+        const token: string = req.cookies[cookie_secrettoken];
+        
+        if(!token){
+            res.status(404).json({message: "Change Secret-qts Token Not provided"})
+            return;
+        }
+
+        //Verify Token
+        const user = verifyToken(token) as IJwtPayload;
+
+        //token is correct
+        if(!user){
+            res.status(404).json({message: "Token Invalid"})
+        }
+       
+        //Verify Token and Get token Id
+        req.userId = user.id;
+
+        next();
+        
+    } catch (error) {
+        const title = "Middleware Error: Change Secret-qts Token VerifyToken ";
+        const message = `${error}`;
+        handleErrorHttp(res,title,message);
+    }
+}
+
+

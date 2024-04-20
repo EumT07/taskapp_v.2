@@ -1,7 +1,20 @@
 import { Router, Request, Response } from "express";
-import { userUpdate, creatingPassToken, creatingSecretQts } from "../controllers/settings";
-import { verify_userToken } from "../middlewares/verify.token";
-import {checkUsername} from "../middlewares/settings"
+import { userUpdate,
+    creatingPassToken,
+    creatingSecretQtsToken,
+    changepassword,
+    changeSecretQts
+} from "../controllers/settings";
+import { verify_userToken,
+    verify_changepasstoken,
+    verify_changesecrettoken
+} from "../middlewares/verify.token";
+import {checkUsername,
+    check_password,
+    check_securityQuestions
+} from "../middlewares/settings";
+import {check_pincode} from "../middlewares/secutiry.methods";
+
 
 const route = Router();
 
@@ -17,13 +30,13 @@ route
     .post("/pincodemail")
 
     //Check Pincode to change password
-    .post("/pinchangepass", creatingPassToken ,(req:Request,res: Response)=>{
-        res.status(200).redirect("/api/v2/settings/changepassword")
+    .post("/pinchangepass",verify_userToken,check_pincode,creatingPassToken ,(req:Request,res: Response)=>{
+        res.status(200).json({message: "User Authenticated: Change password"})
     })
 
     //Chack Pincode to change Secret Questions
-    .post("pinchangesecretqts", creatingSecretQts,(req:Request, res:Response)=>{
-        res.status(200).redirect("/api/v2/settings/changesecretquestions")
+    .post("/pinchangesecretqts",verify_userToken,check_pincode,creatingSecretQtsToken,(req:Request, res:Response)=>{
+        res.status(200).json({message: "User Authenticated: Change Secrete-qts"})
     })
 
 
@@ -34,21 +47,21 @@ route
     .post("changepincode")
 
 
-// change Password
+// Change Password
 route
-    .get("/changepassword", (req,res)=>{
-
+    .get("/changepassword", verify_changepasstoken,(req,res)=>{
+        res.status(202).json({message: "Change Password Page"})
     })
-    .post("/changepassword")
+    .post("/changepassword",check_password ,changepassword)
 
 
 
 // Change Security Questions
 route
-    .get("/changesecretquestions", (req, res)=>{
-
+    .get("/changesecretquestions", verify_changesecrettoken,(req, res)=>{
+        res.status(202).json({message: "Change Secret Questions Page"})
     })
-    .post("/changesecretquestions")
+    .post("/changesecretquestions",check_securityQuestions, changeSecretQts)
 
 //Reset Or delete account
 route

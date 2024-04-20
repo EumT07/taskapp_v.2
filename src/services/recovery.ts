@@ -60,6 +60,10 @@ export const verify_Pincodes = async (id:string,data:IPincode) => {
         //Find pins from user to compare
         const pinUser = await Pincode.findOne({userId:id});
 
+        if(!pinUser){
+            return "Invalid";
+        }
+
         const pinListB = [
             pinUser?.pin1 as string,
             pinUser?.pin2 as string,
@@ -68,7 +72,7 @@ export const verify_Pincodes = async (id:string,data:IPincode) => {
             pinUser?.pin5 as string,
             pinUser?.pin6 as string
         ];
-
+        
         // Compare result
         let pinVerify: boolean = false;
 

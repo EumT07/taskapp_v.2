@@ -54,7 +54,7 @@ export const create_SecretQuestions = async (data:ISecretQuestions,id:string)=>{
             questionC
         } = data;
 
-        //Encryptin answers
+        //Encrypting Answers
         const answer1Hashed1 = await secretAnswer_encrypt(questionA.answer);
         const answer2Hashed2 = await secretAnswer_encrypt(questionB.answer);
         const answer3Hashed3 = await secretAnswer_encrypt(questionC.answer);
