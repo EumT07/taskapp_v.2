@@ -16,7 +16,7 @@ route
         res.status(404).json({message:"Invalid Token"});
     })
     .get("/session",(req,res)=>{
-        res.status(404).json({message:"Sessioon finish"});
+        res.status(404).json({message:"Session finish"});
     })
 
 

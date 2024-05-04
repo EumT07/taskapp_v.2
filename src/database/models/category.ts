@@ -1,4 +1,4 @@
-import { ICategory } from "../interfaces/models";
+import { ICategory } from "../../interfaces/models";
 import { Schema, model } from "mongoose";
 
 const categorySchema = new Schema<ICategory>({

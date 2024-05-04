@@ -1,4 +1,4 @@
-import { IRoles } from "../interfaces/models";
+import { IRoles } from "../../interfaces/models";
 import { Schema, model } from "mongoose";
 
 

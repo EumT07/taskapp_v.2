@@ -1,11 +1,11 @@
-import User from "../models/user";
-import Role from "../models/roles";
-import { IUser } from "../interfaces/models";
-import { handleErrorServer } from "../utils/errorHandle";
-import {encrypt, checkEncrypt} from "../utils/bycrpt";
+import User from "../../../database/models/user";
+import Role from "../../../database/models/roles";
+import { IUser } from "../../../interfaces/models";
+import { handleErrorServer } from "../../../utils/errorHandle";
+import {encrypt, checkEncrypt} from "../../../utils/bycrpt";
 import util from "node:util";
 import dotenv from "dotenv";
-import { generateToken } from "../utils/jsonwebtoken";
+import { generateToken } from "../../../utils/jsonwebtoken";
 
 dotenv.config();
 //time sleep

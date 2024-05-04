@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { verify_recoveryToken, verify_resetPasswordToken } from "../middlewares/verify.token";
-import { search, resetPassword, compare_PinCode, compare_answers } from "../controllers/recovery";
-import { check_Search, check_password } from "../middlewares/recovery";
-import { check_pincode, check_answers } from "../middlewares/secutiry.methods";
+import { search, resetPassword, compare_PinCode, compare_answers } from "../components/recoveryPassword/controllers";
+import { check_Search, check_password } from "../components/recoveryPassword/middlewares";
+import { check_pincode, check_answers } from "../components/securityMethods/middlewares";
 
 
 const route = Router();

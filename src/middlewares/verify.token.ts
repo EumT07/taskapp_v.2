@@ -134,6 +134,7 @@ export const verify_resetPasswordToken = async (req: Request, res: Response, nex
     }
 }
 
+//Settings
 export const verify_changepasstoken = (req: Request, res: Response, next: NextFunction) =>{
     try {
         //get token
@@ -154,7 +155,8 @@ export const verify_changepasstoken = (req: Request, res: Response, next: NextFu
        
         //Verify Token and Get token Id
         req.userId = user.id;
-
+        console.log(user.id);
+        
         next();
         
     } catch (error) {

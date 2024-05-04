@@ -1,7 +1,7 @@
-import User from "../models/user";
+import User from "../../../database/models/user";
 import { Request, Response, NextFunction } from "express";
-import { admin_emailValidator } from "../schema/user.schema";
-import { handleErrorHttp } from "../utils/errorHandle";
+import { admin_emailValidator } from "../../../utils/schema/user.schema";
+import { handleErrorHttp } from "../../../utils/errorHandle";
 
 
 
@@ -12,15 +12,13 @@ export const check_adminSignIn = async (req:Request, res: Response, next: NextFu
         const {error} =  admin_emailValidator.validate(req.body,{abortEarly: false});
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});  
         }
         
         const adminEmail = await User.findOne({email: email});
 
         if(!adminEmail){
-            res.status(404).json({message: "Wrong email"});
-            return;
+            return res.status(404).json({message: "Email not Found"});
         }
 
         return next();

@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { signUp,signIn,close_userLogOut } from "../controllers/auth";
-import {checkUser_SignUP,checkUser_SignIn, } from "../middlewares/auth";
+import { signUp,signIn,close_userLogOut } from "../components/authentication/user/controllers";
+import {checkUser_SignUP,checkUser_SignIn, } from "../components/authentication/user/middleware";
+import { verify_userToken } from "../middlewares/verify.token";
 
 
 const route = Router();
@@ -31,7 +32,7 @@ route
  * Endpoint Authentication: Close user session
  */
 route
-    .get("/logout",close_userLogOut);
+    .get("/logout",verify_userToken,close_userLogOut);
 
 
 

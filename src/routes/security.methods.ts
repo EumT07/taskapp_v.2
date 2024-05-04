@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { set_pinCode, set_secretQuestions } from "../controllers/security.methods";
-import { check_pincode, check_securityQuestions } from "../middlewares/secutiry.methods";
+import { set_pinCode, set_secretQuestions } from "../components/securityMethods/controllers";
+import { check_pincode, check_securityQuestions } from "../components/securityMethods/middlewares";
 import { verify_userToken } from "../middlewares/verify.token";
 
 

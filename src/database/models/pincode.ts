@@ -1,4 +1,4 @@
-import { IPincode } from "../interfaces/models";
+import { IPincode } from "../../interfaces/models";
 import { Schema, model } from "mongoose";
 
 const pincodeSchema = new Schema<IPincode>({

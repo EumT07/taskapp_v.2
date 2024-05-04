@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import { Request, Response} from "express";
-import { IUser } from "../interfaces/models";
-import { handleErrorHttp } from "../utils/errorHandle";
-import { check_adminPassword } from "../services/admin";
+import { IUser } from "../../../interfaces/models";
+import { handleErrorHttp } from "../../../utils/errorHandle";
+import { check_adminPassword } from "./services";
 
 //Enviroment Variables
 dotenv.config();
@@ -13,12 +13,11 @@ const cookie_Admin = process.env.cookie_Admin as string;
 export const admin_LogIn = async (req: Request, res: Response)=>{
     const data:IUser = req.body;
 
-    //Srervices
+    //Services
     const token = await check_adminPassword(data);
 
-
     if(token === "Password Incorrect"){
-        res.status(404).json({message: "Wrong Pasword"})
+        return res.status(404).json({message: "Wrong Pasword"})
     }
 
     //Set Cookies
@@ -29,7 +28,7 @@ export const admin_LogIn = async (req: Request, res: Response)=>{
         sameSite: "lax"
     })
     //Response
-    res.status(201).json({message: "Valid User"})
+    return res.status(201).json({message: "Valid User"})
 }
 
 export const close_adminLogOut = async (req: Request, res: Response)=>{

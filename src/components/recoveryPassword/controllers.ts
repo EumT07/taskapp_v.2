@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
-import { generateToken, verifyToken } from "../utils/jsonwebtoken";
-import {updatePassword,verify_Pincodes, verify_answers as verify_answers} from "../services/recovery";
+import { generateToken, verifyToken } from "../../utils/jsonwebtoken";
+import {updatePassword,verify_Pincodes, verify_answers as verify_answers} from "./services";
 
 
 //Dot-env
@@ -34,12 +34,13 @@ export const compare_PinCode = async (req: Request, res: Response, next: NextFun
     const data = req.body;
     const id = req.userId;
 
-
     //Services: Verify codes in order to get access
     const pins = await verify_Pincodes(id,data);
     
     //verify?
-    if(pins === "Invalid") return res.status(404).json({message:"Pins are Invalid"});
+    if(pins === "Invalid") {
+        return res.status(404).json({message:"Pins are Invalid"});
+    }
 
     //Delete Previous Cookies
     res.clearCookie(cookie_Recovery);
@@ -89,8 +90,7 @@ export const resetPassword = async (req: Request, res: Response)=>{
     //get data
     const {password, confirmPassword} = req.body;
     const id = req.userId;
-
-    
+ 
     //Service: change password
     const response = await updatePassword(id,password,confirmPassword);
 

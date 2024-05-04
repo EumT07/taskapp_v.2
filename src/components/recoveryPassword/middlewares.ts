@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import User from "../models/user";
-import { search_username,search_email } from "../services/recovery";
-import { handleErrorHttp } from "../utils/errorHandle";
-import { password_validator } from "../schema/user.schema";
+import { search_username,search_email } from "./services";
+import { handleErrorHttp } from "../../utils/errorHandle";
+import { password_validator } from "../../utils/schema/user.schema";
 
 
 
@@ -55,8 +54,7 @@ export const check_password = async (req: Request, res: Response, next: NextFunc
         const {error} = password_validator.validate(data);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
         
         next();

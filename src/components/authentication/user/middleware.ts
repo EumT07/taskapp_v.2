@@ -1,7 +1,7 @@
-import User from "../models/user";
+import User from "../../../database/models/user";
 import { Request, Response, NextFunction } from "express";
-import { userValidator, user_emailValidator } from "../schema/user.schema";
-import { handleErrorHttp } from "../utils/errorHandle";
+import { userValidator, user_emailValidator } from "../../../utils/schema/user.schema";
+import { handleErrorHttp } from "../../../utils/errorHandle";
 
 
 
@@ -15,8 +15,7 @@ export const checkUser_SignUP = async (req: Request, res: Response, next: NextFu
         const { error } =  userValidator.validate(req.body, {abortEarly: false});
     
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
 
         const user = await User.findOne({username: username});
@@ -24,13 +23,11 @@ export const checkUser_SignUP = async (req: Request, res: Response, next: NextFu
 
         //User Exists
         if(user){
-            res.status(404).json({message: "User is already exists"});
-            return;
+            return res.status(404).json({message: "User is already exists"});
         }
         //Email Exists
         if(user_email){
-            res.status(404).json({message: "Email is already exists"});
-            return;
+            return res.status(404).json({message: "Email is already exists"});
         }
 
         return next();
@@ -48,16 +45,14 @@ export const checkUser_SignIn = async (req: Request, res: Response, next: NextFu
         const {error} = user_emailValidator.validate(req.body);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
         
         const user_email = await User.findOne({email: email});
 
         //Email Not exist
         if(!user_email){
-            res.status(404).json({message: "User Not Found"});
-            return;
+            return res.status(404).json({message: "User Not Found"});
         }
 
         return next();

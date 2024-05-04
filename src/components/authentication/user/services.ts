@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { handleErrorServer } from "../utils/errorHandle";
-import {encrypt, checkEncrypt} from "../utils/bycrpt";
-import { IUser } from "../interfaces/models";
-import User from "../models/user";
-import Role from "../models/roles";
+import { handleErrorServer } from "../../../utils/errorHandle";
+import {encrypt, checkEncrypt} from "../../../utils/bycrpt";
+import { IUser } from "../../../interfaces/models";
+import User from "../../../database/models/user";
+import Role from "../../../database/models/roles";
 import { Interface } from "readline";
 import { json } from "body-parser";
-import { generateToken } from "../utils/jsonwebtoken";
+import { generateToken } from "../../../utils/jsonwebtoken";
 
 
 export const createUser = async (data:IUser)=>{

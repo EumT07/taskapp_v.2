@@ -8,7 +8,7 @@ export interface IUser extends Document {
     password: string,
     country: string,
     gender:string,
-    roles: string[],
+    roles: ({ type: string; ref: "Role" })[],
     taskHigh: number,
     taskMiddle: number,
     taskLow: number,
@@ -93,7 +93,6 @@ export interface IJwtPayload {
 
 /**
  * Array get_answer : Recovery 
- * 
  */
 export interface IGet_answers {
     question: string,

@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
-import { createUser, findUser } from "../services/auth";
-import { IUser } from "../interfaces/models";
+import { createUser, findUser } from "./services";
+import { IUser } from "../../../interfaces/models";
 import { token } from "morgan";
-import { handleErrorHttp } from "../utils/errorHandle";
+import { handleErrorHttp } from "../../../utils/errorHandle";
 
 //Enviroment Variables
 dotenv.config();
@@ -32,7 +32,7 @@ export const signUp = async (req: Request, res: Response)=>{
     //Message Notification
 
     // Response
-    res.status(201).json({message: "User Created Successfully"})
+    return res.status(201).json({message: "User Created Successfully"})
 }
 export const signIn = async (req: Request, res: Response)=>{
     const data:IUser = req.body;
@@ -41,7 +41,7 @@ export const signIn = async (req: Request, res: Response)=>{
     const token = await findUser(data);
 
     if(token === "Password Incorrect"){
-        res.status(404).json({message: "Wrong Pasword"})
+        return res.status(404).json({message: "Wrong Pasword"})
     }
 
     //Set Cookies

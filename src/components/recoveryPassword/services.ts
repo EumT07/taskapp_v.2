@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import User from "../models/user";
-import { IPincode, ISecretQuestions, ISecret_reecovery,IGet_answers } from "../interfaces/models";
-import Pincode from "../models/pincode";
-import SecretQuestions from "../models/secretQuestions";
-import { handleErrorServer } from "../utils/errorHandle";
-import {encrypt, check_pinEncrypt, check_secretAnswerEncrypt } from "../utils/bycrpt";
+import User from "../../database/models/user";
+import { IPincode, ISecretQuestions, ISecret_reecovery,IGet_answers } from "../../interfaces/models";
+import Pincode from "../../database/models/pincode";
+import SecretQuestions from "../../database/models/secretQuestions";
+import { handleErrorServer } from "../../utils/errorHandle";
+import {encrypt, check_pinEncrypt, check_secretAnswerEncrypt } from "../../utils/bycrpt";
 import { string } from "joi";
 
 
@@ -35,7 +35,6 @@ export const search_email = async (email:string)=>{
     try {
     
         const user = await User.findOne({email: email})
-
 
         if(!user){
             return "Not Found"
@@ -178,10 +177,10 @@ const getCoincidingElements = async (arrayA: string[], arrayB: string[], secretQ
 
     coincidingElements.forEach((item:string)=>{
         if(item === secretQts_data.questionA.question){
-            get_answer.push(secretQts_data.questionA);
+            return get_answer.push(secretQts_data.questionA);
         }
         if(item === secretQts_data.questionB.question){
-            get_answer.push(secretQts_data.questionB);
+            return get_answer.push(secretQts_data.questionB);
         }
         if(item === secretQts_data.questionC.question){
             return get_answer.push(secretQts_data.questionC);

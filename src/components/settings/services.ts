@@ -1,8 +1,8 @@
-import { IUser,ISecretQuestions } from "../interfaces/models";
-import User from "../models/user";
-import secretQuestions from "../models/secretQuestions";
-import { handleErrorServer } from "../utils/errorHandle";
-import { encrypt, secretAnswer_encrypt } from "../utils/bycrpt";
+import { IUser,ISecretQuestions } from "../../interfaces/models";
+import User from "../../database/models/user";
+import secretQuestions from "../../database/models/secretQuestions";
+import { handleErrorServer } from "../../utils/errorHandle";
+import { encrypt, secretAnswer_encrypt } from "../../utils/bycrpt";
 
 
 export const updateProfile_user = async (userId:string,body:IUser)=>{
@@ -19,7 +19,7 @@ export const updateProfile_user = async (userId:string,body:IUser)=>{
       
         await User.findByIdAndUpdate({_id: userId},userData);
 
-        return "Updated"
+        return "Updated";
 
     } catch (error) {
         const title = "Internal Error\nSettings Services: Update User";

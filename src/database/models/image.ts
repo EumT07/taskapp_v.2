@@ -1,4 +1,4 @@
-import { IImage } from "../interfaces/models";
+import { IImage } from "../../interfaces/models";
 import { Schema, model } from "mongoose";
 
 

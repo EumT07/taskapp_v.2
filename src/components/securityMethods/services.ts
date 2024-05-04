@@ -1,8 +1,8 @@
-import { IPincode, ISecretQuestions } from "../interfaces/models";
-import PIN from "../models/pincode";
-import secretQuestions from "../models/secretQuestions";
-import { handleErrorServer } from "../utils/errorHandle";
-import { pin_encrypt,secretAnswer_encrypt } from "../utils/bycrpt";
+import { IPincode, ISecretQuestions } from "../../interfaces/models";
+import PIN from "../../database/models/pincode";
+import secretQuestions from "../../database/models/secretQuestions";
+import { handleErrorServer } from "../../utils/errorHandle";
+import { pin_encrypt,secretAnswer_encrypt } from "../../utils/bycrpt";
 
 
 export const create_PinsCode = async (data:IPincode,id:string) =>{

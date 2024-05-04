@@ -1,7 +1,6 @@
-import { pin_validator, secretQts_validator, answer_validator } from "../schema/user.schema";
+import { pin_validator, secretQts_validator, answer_validator } from "../../utils/schema/user.schema";
 import { Request, Response, NextFunction } from "express";
-import PIN from "../models/pincode";
-import { handleErrorHttp } from "../utils/errorHandle";
+import { handleErrorHttp } from "../../utils/errorHandle";
 
 export const check_pincode = (req:Request, res: Response, next: NextFunction)=>{
 
@@ -12,8 +11,7 @@ export const check_pincode = (req:Request, res: Response, next: NextFunction)=>{
         const {error} = pin_validator.validate(data);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
 
         return next();

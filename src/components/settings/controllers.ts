@@ -1,8 +1,8 @@
 import dotenv from "dotenv"
 import {Request, Response, NextFunction} from "express";
-import { updateProfile_user, updatePassword, updateSecretQts } from "../services/settings";
-import {verify_Pincodes} from "../services/recovery";
-import { generateToken } from "../utils/jsonwebtoken";
+import { updateProfile_user, updatePassword, updateSecretQts } from "./services";
+import {verify_Pincodes} from "../recoveryPassword/services";
+import { generateToken } from "../../utils/jsonwebtoken";
 
 
 dotenv.config();
@@ -14,12 +14,11 @@ const cookie_secrettoken = process.env.cookie_secrettoken as string;
 
 export const userUpdate = async (req: Request, res:Response)=>{
     
-    
     //Update User data
     const value = await updateProfile_user(req.userId,req.body);
 
     if(value === "Updated"){
-        res.status(202).json({message: "User was Updated"})
+        return res.status(202).json({message: "User was Updated"});
     }
 }
 
@@ -32,9 +31,10 @@ export const creatingPassToken = async (req: Request, res:Response) => {
     const pins = await verify_Pincodes(id,data);
 
     //verify?
-    if(pins === "Invalid") return res.status(404).json({message:"Pins are Invalid"});
+    if(pins === "Invalid") {
+        return res.status(404).json({message:"Pins are Invalid"});
+    }
 
-    
     //Create a new one
     const newToken = generateToken(id);
 
@@ -46,7 +46,7 @@ export const creatingPassToken = async (req: Request, res:Response) => {
     })
 
     //Response
-    res.status(201).json({message: "Pins code are correct"});
+    return res.status(201).json({message: "Pins code are correct"});
     
 }
 
@@ -59,9 +59,10 @@ export const creatingSecretQtsToken = async (req: Request, res:Response) => {
     const pins = await verify_Pincodes(id,data);
 
     //verify?
-    if(pins === "Invalid") return res.status(404).json({message:"Pins are Invalid"});
+    if(pins === "Invalid"){
+        return res.status(404).json({message:"Pins are Invalid"});
+    }
 
-    
     //Create a new one
     const newToken = generateToken(id);
 
@@ -73,14 +74,13 @@ export const creatingSecretQtsToken = async (req: Request, res:Response) => {
     })
 
     //Response
-    res.status(201).json({message: "Pins code are correct"});
-
+    return res.status(201).json({message: "Pins code are correct"});
 }
 
 export const changepassword = async (req: Request, res:Response)=>{
     const {password, confirmPassword} = req.body;
     const id = req.userId;
-
+    
     //Service: change password
     const response = await updatePassword(id,password,confirmPassword);
 
@@ -88,17 +88,17 @@ export const changepassword = async (req: Request, res:Response)=>{
         return res.status(404).json({message: "Password are Different"});
     }
     //Clean cookies
+    res.clearCookie(cookie_User);
     res.clearCookie(cookie_passtoken);
     //Message Notificacion
 
     //Response
-    res.status(201).json({message: "Password have been changed"})
+    return res.status(201).json({message: "Password have been changed"});
 }
 
 export const changeSecretQts = async (req: Request, res:Response) =>{
     const {data} = req.body;
     const id = req.userId;
-
 
     //Services: Change Secret Questions
     const response = await updateSecretQts(id,data);
@@ -108,9 +108,11 @@ export const changeSecretQts = async (req: Request, res:Response) =>{
     }
     
     //Clean Cookies
+    res.clearCookie(cookie_User);
+    res.clearCookie(cookie_secrettoken);  
 
     //message Notificacion
 
     //Response
-    res.status(201).json({message:"Secret Questions have been changed"})
+    return res.status(201).json({message:"Secret Questions have been changed"});
 }

@@ -19,8 +19,8 @@ import error from "./routes/error";
 import securityMethods from "./routes/security.methods";
 
 //Services
-import { adminRole } from "./services/admin";
-import { createRoles } from "./services/roles";
+import { adminRole } from "./components/authentication/admin/services";
+import { createRoles } from "./components/authentication/roles";
 
 dotenv.config();
 

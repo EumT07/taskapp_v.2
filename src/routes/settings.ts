@@ -4,7 +4,7 @@ import { userUpdate,
     creatingSecretQtsToken,
     changepassword,
     changeSecretQts
-} from "../controllers/settings";
+} from "../components/settings/controllers";
 import { verify_userToken,
     verify_changepasstoken,
     verify_changesecrettoken
@@ -12,8 +12,8 @@ import { verify_userToken,
 import {checkUsername,
     check_password,
     check_securityQuestions
-} from "../middlewares/settings";
-import {check_pincode} from "../middlewares/secutiry.methods";
+} from "../components/settings/middlewares";
+import {check_pincode} from "../components/securityMethods/middlewares";
 
 
 const route = Router();
@@ -52,7 +52,7 @@ route
     .get("/changepassword", verify_changepasstoken,(req,res)=>{
         res.status(202).json({message: "Change Password Page"})
     })
-    .post("/changepassword",check_password ,changepassword)
+    .post("/changepassword",check_password,verify_changepasstoken,changepassword)
 
 
 
@@ -61,7 +61,7 @@ route
     .get("/changesecretquestions", verify_changesecrettoken,(req, res)=>{
         res.status(202).json({message: "Change Secret Questions Page"})
     })
-    .post("/changesecretquestions",check_securityQuestions, changeSecretQts)
+    .post("/changesecretquestions",check_securityQuestions,verify_changesecrettoken, changeSecretQts)
 
 //Reset Or delete account
 route

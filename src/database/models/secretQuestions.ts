@@ -1,4 +1,4 @@
-import { ISecretQuestions } from "../interfaces/models";
+import { ISecretQuestions } from "../../interfaces/models";
 import { Schema, model } from "mongoose";
 
 

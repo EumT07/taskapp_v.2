@@ -1,8 +1,8 @@
-import User from "../models/user";
-import {userUpdate_validator, password_validator, secretQts_validator, answer_validator } from "../schema/user.schema";
+import User from "../../database/models/user";
+import {userUpdate_validator, password_validator, secretQts_validator, answer_validator } from "../../utils/schema/user.schema";
 import { Request,Response,NextFunction } from "express";
-import { handleErrorHttp } from "../utils/errorHandle";
-import {IUser} from "../interfaces/models"; 
+import { handleErrorHttp } from "../../utils/errorHandle";
+import {IUser} from "../../interfaces/models"; 
 
 
 export const checkUsername = async (req:Request, res:Response, next: NextFunction)=>{
@@ -13,8 +13,7 @@ export const checkUsername = async (req:Request, res:Response, next: NextFunctio
         const {error} = userUpdate_validator.validate(req.body);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
 
         //Search user to compare
@@ -27,11 +26,9 @@ export const checkUsername = async (req:Request, res:Response, next: NextFunctio
         //If this is the same username next
         if(user.username === username) return next();
 
-        
         if(usernameFound){
             return res.status(404).json({message: "User already Exists"});
         }
-
 
     } catch (error) {
         const title = "Error Middleware: check Username";
@@ -44,13 +41,12 @@ export const checkUsername = async (req:Request, res:Response, next: NextFunctio
 export const check_password = async (req: Request, res: Response, next: NextFunction)=>{
     try {
         const data = req.body;
-
+        
         //Validator
         const {error} = password_validator.validate(data);
 
         if(error){
-            res.status(404).json({message: error.details});
-            return;
+            return res.status(404).json({message: error.details});
         }
         
         next();

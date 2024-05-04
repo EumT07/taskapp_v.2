@@ -1,5 +1,5 @@
-import Role from "../models/roles";
-import { handleErrorServer } from "../utils/errorHandle";
+import Role from "../../database/models/roles";
+import { handleErrorServer } from "../../utils/errorHandle";
 import util from "node:util";
 
 
